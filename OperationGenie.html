@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Étude Horaire</title>
+<p id="buttons">Hi</p>
+<p id="present">Présent: </p>
+<p id="presentresponse">Présent Réponse: </p>
+<p id="irregularpresent">Irrégulier Présent: </p>
+<p id="irregularpresentresponse">Irrégulier Présent Réponse: </p>
+<p id="passecompose">Passé Composé: </p>
+<p id="passecomposeresponse">Passé Composé Réponse: </p>
+<p id="imparfait">Imparfait: </p>
+<p id="imparfaitresponse">Imparfait Réponse: </p>
+<script>
+var pronoun = ["Je ", "Tu ",["Il ","Elle ","On ","Qui "], "Nous ", "Vous ", ["Ils", "Elles "],"J'","Il ","Elle ","On ","Qui ","Ils ", "Elles "];
+var buttons = ['<p></p><button onclick="present()">Présent</button>',
+'<button onclick="irr()">Irrégulier Présent</button>',
+'<button onclick="passecompose()">Passé Composé</button>',
+'<button onclick="imparfait()">Imparfait</button>']
+var allbuttons = buttons.join('')
+document.getElementById("buttons").innerHTML = allbuttons
+var verbs = [['parler','regarder','travailler' , 'chanser','danser','aimer'],
+	['perdre','rendre','entendre','vendre'],
+	['finir','choisir','réussir','grandir','grossir']];
+var irregular = ['aller','avoir','dire','être','faire','pouvoir','savoir','voir','vouloir','venir']
+var endings_present= [['e', 'es', 'e', 'ons', 'ez', 'ent'],
+	['s','s','','ons','ez','ent'],
+	['is','is','it','issons','issez','issent']];
+var irregularconj = [['vais','vas','va','allons','allez','vont'],
+['ai','as','a','avons','avez','ont'],
+['dis','dis','dit','disons','dites','disent'],
+['suis','es','est','sommes','êtes','sont'],
+['fais','fais','fait','faisons','faites','font'],
+['peux','peux','peut','pouvons','pouvez','pouvent'],
+['sais','sais','sait','saivons','savez','savent'],
+['vois','vois','voit','voyons','voyez','voient'],
+['veux','veux','veut','voulons','voulez','veulent']
+['viens','viens','vient','venons','venez','viennent']]
+
+var avoir= ['ai','as','a','avons','avez','ont']
+var endings_passecompose= ['é','u','i'];
+var endings_imparfait= [['ais', 'ais', 'ait', 'ions', 'iez', 'aient'],
+	['ais','ais','ait','ions','iez','aient'],
+	['issais','issais','issait','issions','issiez','issaient']];
+var sliced = 0;
+var i = 0;
+var letters = 0;
+var proi = Math.floor(Math.random()*6) + 0;
+var type = Math.floor(Math.random()*3) + 0;
+var verbsi = Math.floor(Math.random()*verbs[type].length) + 0;
+var random = Math.floor(Math.random()*4) + 1;
+var vowel = 0;
+var apos = 0;
+var pastsetter = 0;
+function adjusterje(){
+	vowel = verbs[type][verbsi][0];
+	if (proi == 0){
+		if (vowel == 'a'||vowel == 'e'||vowel == 'i'||vowel == 'o'||vowel == 'u'||vowel == 'h'){
+			apos = 6;
+		}
+	}
+}
+function adjusterjeirr(){
+	vowel = irregularconj[verbsi][0][0];
+	if (proi == 0){
+		if (vowel == 'a'||vowel == 'e'||vowel == 'i'||vowel == 'o'||vowel == 'u'||vowel == 'h'){
+			apos = 6;
+		}
+	}
+}
+function adjusteril(){
+	if (proi == 2){
+		proi= Math.floor(Math.random()*4) + 7;
+		apos = proi;
+	}
+}
+function adjusterils(){
+	if (proi == 5){
+		proi= Math.floor(Math.random()*2) + 11;
+		apos = proi;
+	}
+}
+function present(){
+	proi = Math.floor(Math.random()*6) + 0;
+	apos = proi;
+	endi = proi
+	type = Math.floor(Math.random()*3) + 0;
+	verbsi= Math.floor(Math.random()*verbs[type].length) + 0;
+	adjusterje();
+	adjusteril();
+	adjusterils();
+	var response = prompt(pronoun[proi] + " + " + verbs[type][verbsi],"");
+	sliced = verbs[type][verbsi].slice(0,-2);
+	document.getElementById("present").innerHTML = "<p>Présent: " + pronoun[proi] + " + " + verbs[type][verbsi] + " = " + pronoun[apos] + sliced + endings_present[type][endi];
+	document.getElementById("presentresponse").innerHTML = "<p>Présent réponse: " + response + "</p>";
+}
+function irr(){
+	proi = Math.floor(Math.random()*6) + 0;
+	apos = proi;
+	endi = proi
+	verbsi= Math.floor(Math.random()*irregular.length) + 0;
+	adjusterjeirr();
+	adjusteril();
+	adjusterils();
+	var response = prompt(pronoun[proi] + " + " + irregular[verbsi],"");
+	document.getElementById("irregularpresent").innerHTML = "<p>Irrégulier Présent: " + pronoun[proi] + " + " + irregular[verbsi] + " = " + pronoun[apos] + irregularconj[verbsi][endi];
+	document.getElementById("irregularpresentresponse").innerHTML = "<p>Irrégulier Présent Réponse: " + response + "</p>";
+}
+function passecompose(){
+	proi= Math.floor(Math.random()*6) + 0;
+	pastsetter = proi
+	apos = proi;
+	type = Math.floor(Math.random()*3) + 0;
+	verbsi= Math.floor(Math.random()*verbs[type].length) + 0;
+	adjusteril();
+	adjusterils();
+	var response = prompt(pronoun[proi] + " + " + verbs[type][verbsi],"");
+	if (proi == 0){
+		apos = 6;
+	}
+	sliced = verbs[type][verbsi].slice(0,-2);
+	document.getElementById("passecompose").innerHTML = "<p>Passé Composé: " + pronoun[proi] + " + avoir + " + verbs[type][verbsi] + " = " + pronoun[apos] + avoir[pastsetter] + " " + sliced + endings_passecompose[type];
+	document.getElementById("passecomposeresponse").innerHTML = "<p>Passé Composé Réponse: " + response + "</p>";
+}
+function imparfait(){
+	proi= Math.floor(Math.random()*6) + 0;
+	apos = proi;
+	endi = proi;
+	type = Math.floor(Math.random()*3) + 0;
+	verbsi= Math.floor(Math.random()*verbs[type].length) + 0;
+	adjusterje();
+	adjusteril();
+	adjusterils();
+	var response = prompt(pronoun[proi] + " + " + verbs[type][verbsi],"");
+	sliced = verbs[type][verbsi].slice(0,-2);
+	document.getElementById("imparfait").innerHTML = "<p>Imparfait: " + pronoun[proi] + " + " + verbs[type][verbsi] + " = " + pronoun[apos] + sliced + endings_imparfait[type][endi];
+	document.getElementById("imparfaitresponse").innerHTML = "<p>Imparfait Réponse: " + response + "</p>";
+}
+
+
+</script>
+</head>
+
+<body>
+</body>
+</html>
+
